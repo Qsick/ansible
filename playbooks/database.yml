@@ -3,4 +3,4 @@
   become: true
   tasks:
     - name: install mysql-server
-      apt: name=mysql-servrer state=present update_cache=yes
+      apt: name=mysql-server state=present update_cache=yes
