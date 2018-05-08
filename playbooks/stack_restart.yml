@@ -5,12 +5,18 @@
   tasks:
     - name: loadbalancer stop nginx
       service: name=nginx state=stopped
+    - wait_for:
+      port=80
+      state=drained
 
 - hosts: webserver
   become: true
   tasks:
     - name: webserver stop apache2
       service: name=apache2 state=stopped
+    - wait_for:
+      port=80
+      state=stopped
 
 # Restart mysql
 - hosts: database
@@ -18,6 +24,7 @@
   tasks:
     - name: mysql restart
       service: name=mysql state=restarted
+    - wait_for: port=3306
 
 # Bring stack up
 - hosts: webserver
@@ -25,10 +32,12 @@
   tasks:
     - name: webserver start apache2
       service: name=apache2 state=started
+    - wait_for: port=80
 
 - hosts: loadbalancer
   become: true
   tasks:
     - name: loadbalancer start nginx
       service: name=nginx state=started
+    - wait_for: port=80
 
