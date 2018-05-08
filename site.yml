@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/control.yml
+- import_playbook: playbooks/database.yml
+- import_playbook: playbooks/webserver.yml
+- import_playbook: playbooks/loadbalancer.yml
