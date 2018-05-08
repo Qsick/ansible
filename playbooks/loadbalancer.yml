@@ -2,8 +2,11 @@
 - hosts: loadbalancer
   become: true
   tasks:
-    - name: install nginx
-      apt: name=nginx state=present update_cache=yes
+    - name: install apt packages
+      apt: name={{item}} state=present update_cache=yes
+      with_items:
+        - nginx
+        - python-httplib2
 
     - name: ensure nginx started
       service: name=nginx state=started enabled=yes
