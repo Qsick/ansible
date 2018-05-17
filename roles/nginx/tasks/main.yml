@@ -8,8 +8,9 @@
 - name: configure nginx site
   template:
     src=nginx.conf.j2
-    dest=/etc/nginx/sites-available/demo
+    dest=/etc/nginx/sites-available/{{ item.key }}
     mode=0644
+  with_dict: "{{sites}}"
   notify: restart nginx
 
 - name: de-activate default nginx site
@@ -18,11 +19,12 @@
     state=absent
   notify: restart nginx
 
-- name: activate demo nginx site
+- name: activate nginx site
   file:
-    src=/etc/nginx/sites-available/demo
-    dest=/etc/nginx/sites-enabled/demo
+    src=/etc/nginx/sites-available/{{ item.key }}
+    dest=/etc/nginx/sites-enabled/{{ item.key }}
     state=link
+  with_dict: "{{sites}}"
   notify: restart nginx
 
 - name: ensure nginx started
