@@ -15,7 +15,7 @@
 
 - name: get active sites
   shell: ls -1 /etc/nginx/sites-enabled
-  registe3r: active
+  register: active
 
 - name: de-activate nginx sites
   file:
